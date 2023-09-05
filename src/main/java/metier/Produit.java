@@ -10,7 +10,6 @@ public class Produit implements Serializable{
 	private int quantite;
 	
 	public Produit() {
-		super();
 	}
 
 	public Produit(String designation, double prix, int quantite) {

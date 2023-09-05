@@ -60,6 +60,8 @@ public class ProduitDaoImpl implements IProduitDao{
 				listeProduit.add(p);
 			}
 			
+			ps.close();
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -70,20 +72,66 @@ public class ProduitDaoImpl implements IProduitDao{
 
 	@Override
 	public Produit getProduit(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		Connection connexion = SingletonConnection.getConnection();
+		Produit p = new Produit();
+		try {
+			PreparedStatement ps = connexion.prepareStatement("SELECT * FROM PRODUITS WHERE ID = ?");
+			ps.setLong(1, id);
+			ResultSet rs = ps.executeQuery();
+			if(rs.next()) {
+				p.setId(rs.getLong("ID"));
+				p.setDesignation(rs.getString("DESIGNATION"));
+				p.setPrix(rs.getDouble("PRIX"));
+				p.setQuantite(rs.getInt("QUANTITE"));
+			}
+			
+			ps.close();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return p;
 	}
 
 	@Override
-	public Produit update(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+	public Produit update(Produit p) {
+		Connection connexion = SingletonConnection.getConnection();
+		
+		try {
+			PreparedStatement ps = connexion.prepareStatement("UPDATE PRODUITS SET DESIGNATION=?,PRIX=?,QUANTITE=? WHERE ID=?");
+			ps.setString(1, p.getDesignation());
+			ps.setDouble(2, p.getPrix());
+			ps.setInt(3, p.getQuantite());
+			ps.setLong(4, p.getId());
+			ps.executeUpdate();
+			
+			ps.close();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return p;
 	}
 
 	@Override
 	public void deleteProduit(Long id) {
-		// TODO Auto-generated method stub
-		
+		 Connection connexion = SingletonConnection.getConnection();
+		 try {
+			PreparedStatement ps = connexion.prepareStatement("DELETE FROM PRODUITS WHERE ID=?");
+			ps.setLong(1, id);
+			ps.executeUpdate();
+			ps.close();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		 
 	}
 
 }

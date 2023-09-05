@@ -7,7 +7,7 @@
 <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" /> 
 </head>
 <body>
-
+	<%@include file="header.jsp" %>
 	<div class="container col-md-9 col-md-offset-1">
 		<div class="panel panel-primary">
 			<div class="panel-heading">Recherche des produits</div>
@@ -27,6 +27,8 @@
 							<td>${p.designation}</td>
 							<td>${p.prix}</td>
 							<td>${p.quantite}</td>
+							<td><a onclick="return confirm('Etez-vous sûr de la suppression?')" href="Suppression.do?id=${p.id}">Suppression</a></td>
+							<td><a href="Edit.do?id=${p.id}">Edit</a></td>
 						</tr>
 					</c:forEach>
 				</table>
